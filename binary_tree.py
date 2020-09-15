@@ -1,5 +1,3 @@
-
-
 class Node:
     def __init__(self, value=None):
         self.value = value
@@ -12,7 +10,6 @@ class Node:
 def create_tree(values):
 
     def insert_node(node, value):
-
         if node.value == None:
             node.value = value
 
@@ -31,8 +28,17 @@ def create_tree(values):
                 insert_node(node.child_r, value)
 
     root = Node()
-    for num in values:
-        insert_node(root, num)
+
+    heuristics = []
+    positions = []
+
+    for i, row in enumerate(values):
+        for j, num in enumerate(row):
+            insert_node(root, num)
+            positions.append({num: [i, j]})
+
+    for index, pos in enumerate(positions):
+        print(index, pos.items())
 
     return root
 
@@ -45,29 +51,40 @@ def search_node(node, value, total_steps):
         if node.child_l == None:
             return None
         else:
-            return search_node(node.child_l, value, total_steps)
+            return search_node(node.child_l, step, total_steps)
 
     elif node.value < value:
         if node.child_r == None:
             return None
         else:
-            return search_node(node.child_r, value, total_steps)
+            return search_node(node.child_r, step, total_steps)
     else:
         node.step = total_steps
         return node
 
 
-values = [2,5,8,1,3,0,6,4,7]
+def set_heurisc(insert_node):
+    pass
+
+
+
+values = [ [2,5,8],
+                   [1,3,0],
+                   [6,4,7] ]
+
+
+
 root = create_tree(values)
 
-costs = {}
+costs = set_heurisc(root)
 
-for value in values:
+""" for step in range(1, 10):
     total_steps = -1
-    node = search_node(root, value, total_steps)
-    costs[node.value] = node.step
+    node = search_node(root, step, total_steps)
+    costs[node.step] = node.value """
 
 
-
+""" for i in costs:
+    print(i) """
 
 
